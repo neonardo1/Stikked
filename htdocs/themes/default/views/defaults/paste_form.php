@@ -86,7 +86,6 @@
 				</label>
 				<?php
 					$expire_extra = 'id="expire" class="select" tabindex="7"';
-                    $default_expiration = config_item('default_expiration');
 					$options = array(
 									"burn" => lang('exp_burn'),
 									"5" => lang('exp_5min'),
@@ -99,7 +98,7 @@
                     if(! config_item('disable_keep_forever')) {
                         $options['0'] = lang('exp_forever');
                     }
-				echo form_dropdown('expire', $options, $default_expiration, $expire_extra); ?>
+				echo form_dropdown('expire', $options, $expire_set, $expire_extra); ?>
 			</div>
 		</div>
 
@@ -131,6 +130,15 @@
 ?>
 
 		<div class="clear"><button type="submit" value="submit" name="submit"><?php echo lang('paste_create'); ?></button></div>
+		<?php
+		if ($this->config->item('csrf_protection') === TRUE)
+		{
+			if(isset($_COOKIE[$this->config->item('csrf_cookie_name')])) {
+				echo '<input type="hidden" name="'.$this->config->item('csrf_token_name').'" value="'.html_escape($_COOKIE[$this->config->item('csrf_cookie_name')]).'" style="display:none;" />'."\n";
+			}
+		}
+		?>
 		<div class="spacer"></div>
+
 	</form>
 </div>
